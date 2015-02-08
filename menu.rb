@@ -65,23 +65,44 @@ class Menu
       if @pcl == 3
         puts "#{@action_text} location."
         loc_name=gets.chomp
+        
+        Location.add(loc_name)
+        puts "Location added successfully!"
       end 
     end  
   
     #Delete Item
     if @action == 2
       if @pcl == 1
+        puts "List of items:", 
+        Item.list_items
+        
         id, name = action_by
+        
+        Menu.delete(Item, id=nil, name=nil)
+        # if id
+        #   Item.delete(id)
+        #   puts "This item has been deleted successfully."
+        # else
+        #   Item.delete(name)
+        #   puts "This item has been deleted successfully."
+        # end
       end 
 
       #Delete Category
       if @pcl == 2
+        puts "List of Categories:",Category.list_cats
         id, name = action_by
+        
+        Menu.delete(Category, id=nil, name=nil)
       end
     
       #Delete Location
       if @pcl == 3
+        puts "List of Locations:", Location.list_loc
         id, name = action_by
+        
+         Menu.delete(Location, id=nil, name=nil)
         
       end
     end
@@ -126,7 +147,7 @@ class Menu
       by = gets.chomp.to_i
     if by == 1
       puts "Enter #{@pcl_text} id"
-      id = gets.chomp.to_ior
+      id = gets.chomp.to_i
     else
       puts "Enter #{@pcl_text} name."
       name=gets.chomp
@@ -134,6 +155,18 @@ class Menu
   
     return id, name
   end
+  
+  #Delete Method
+  def self.delete(pcl,id,name)
+    if id
+      pcl.delete(id)
+      puts "This #{pcl.name} has been deleted successfully."
+    else
+      pcl.delete(name)
+      puts "This #{pcl.name} has been deleted successfully."
+    end
+  end
+  
 end
   
 

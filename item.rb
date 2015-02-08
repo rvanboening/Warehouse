@@ -34,4 +34,20 @@ class Item
     
     puts "Inserted successfully!"  
   end
+  
+  #DELETE Method
+  def self.delete(value)
+    
+    if value.is_a?(Integer) 
+      DATABASE.execute("DELETE FROM items WHERE id = #{value}")
+    else
+      DATABASE.execute("DELETE FROM items WHERE name = '#{value}'")
+    end
+  end
+  
+  #lists all items
+  def self.list_items
+    list = DATABASE.execute("SELECT id, name FROM items")
+  end
+  
 end
