@@ -1,31 +1,37 @@
-# # require_relative "main.rb"
-#
-# class Item
-#   attr_reader :id
-#   attr_accessor :name
-#
-#   def initialize(options)
-#     @name = options[:name]
-#     @category = options[:category]
-#     @location = options[:location]
-#     @serial_num = options[:serial_num]
-#     @quanity = options[:quanity]
-#     @cost = options[:cost]
-#     @description = [:description]
-#   end
-#   #
-#   # def sync
-#   #   attribute = ["name", "age", ""]
-#   #
-#   #   DATABASE.ex
-#   # take the attributes for this object and make sure those are the values in the objects corresponding row in the "products" table.
-#   def sync
-#     DATABASE.exectute("UPDATE products SET name = '#{name}' WHERE = #{id}")
-#   end
-#
-#
-#   def name
-#     DATABASE.execute("SELECT * FROM products WHERE name = #{@name}")
-#   end
-# end
-#
+class Item
+  attr_accessor :item_name, :item_cat, :item_loc, :item_quant, :item_price, :item_desc
+  
+  def initialize(item_name,item_cat,item_loc,item_quant,item_price,item_desc)
+    @item_name = item_name
+    @item_cat = item_cat
+    @item_loc = item_loc
+    @item_quant = item_quant
+    @item_price = item_price
+    @item_desc = item_desc
+  end
+  
+  def insert
+    attributes = []
+    instance_variables.each { |i|
+      attributes << i.to_s.delete("@")
+    }
+    
+    query_components_array = []
+    attributes.each { |x|
+      value = self.send(x)
+      
+      if value.is_a?(Integer)
+        query_components_array << "#{value}"
+      else
+        query_components_array << "'#{value}'"
+      end
+    }
+    
+    query_string = query_components_array.join(", ")
+    puts query_string
+    
+    DATABASE.execute("INSERT INTO items (name, category, location, quantity, cost, description) VALUES (#{query_string})")  
+    
+    puts "Inserted successfully!"  
+  end
+end

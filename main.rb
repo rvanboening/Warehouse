@@ -9,4 +9,3 @@ require_relative 'location.rb'
 
 Menu.launch
 
-binding.pry

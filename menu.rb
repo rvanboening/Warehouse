@@ -7,10 +7,13 @@ class Menu
       break if [1,2,3,4].include? @action
     end
   
-    @action_text= "Add" if @action == 1
-    @action_text= "Delete" if @action == 2
-    @action_text= "Fetch" if @action == 3
-    @action_text= "Edit" if @action == 4
+    action_items= ["Add", "Delete", "Fetch" "Edit"]
+    @action_text = action_items[@action-1]
+
+    # @action_text= "Add" if @action == 1
+    # @action_text= "Delete" if @action == 2
+    # @action_text= "Fetch" if @action == 3
+    # @action_text= "Edit" if @action == 4
   
     loop do
        puts "#{@action_text}...", "1. Product", "2. Category", "3. Location"
@@ -18,9 +21,12 @@ class Menu
        break if [1,2,3].include? @pcl
      end
    
-     @pcl_text= "Item" if @pcl == 1
-     @pcl_text= "Category" if @pcl == 2
-     @pcl_text= "Location" if @pcl == 3
+     pcl_items = ["Item", "Category", "Location"]
+     @pcl_text= pcl_items[@pcl-1]
+     
+    # @pcl_text= "Item" if @pcl == 1
+    #  @pcl_text= "Category" if @pcl == 2
+    #  @pcl_text= "Location" if @pcl == 3
 
 
     #add Product
@@ -38,12 +44,21 @@ class Menu
         item_price=gets.chomp.to_f
         puts "Enter a description"
         item_desc=gets.chomp
+        
+        new_item = Item.new(item_name, item_cat, item_loc, item_quant, item_price, item_desc)
+        new_item.insert
+    
       end
     
       #add category
       if @pcl == 2
         puts "#{@action_text} category."
         cat_name=gets.chomp
+        
+        Category.add(cat_name)
+        
+        puts "Category added successfully!"
+        
       end
     
       #add Location
@@ -111,7 +126,7 @@ class Menu
       by = gets.chomp.to_i
     if by == 1
       puts "Enter #{@pcl_text} id"
-      id = gets.chomp.to_i
+      id = gets.chomp.to_ior
     else
       puts "Enter #{@pcl_text} name."
       name=gets.chomp
