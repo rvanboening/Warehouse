@@ -1,3 +1,23 @@
+# Class: Item
+#
+# Creates items for the database.
+#
+# #Attributes:
+# @item_name  - String: name of item
+# @item_cat   - String: name of cateogry- Fruit or Vegetable.
+# @item_loc   - String: name of location of store - Benson, Dundee, Downtown
+# @item_quant - Integer: number of producs in inventory
+# @item_price - Integer: cost of single item.
+# @item_desc  - String: description of item
+#
+# Public Methods:
+# # insert
+# # delete
+# # list_items
+# # list_item_details
+# # fetch_item_by
+
+
 class Item
   attr_accessor :item_name, :item_cat, :item_loc, :item_quant, :item_price, :item_desc
   
@@ -10,6 +30,8 @@ class Item
     @item_desc = item_desc
   end
   
+#Public: #insert  
+#  
   def insert
     attributes = []
     instance_variables.each { |i|
@@ -41,7 +63,7 @@ class Item
     if value.is_a?(Integer) 
       DATABASE.execute("DELETE FROM items WHERE id = #{value}")
     else
-      DATABASE.execute("DELETE FROM items WHERE name = '#{value}'")
+      DATABASE.execute("o")
     end
   end
   
@@ -66,6 +88,16 @@ class Item
       DATABASE.execute("Select * FROM items WHERE location = '#{input}'")
     end
   end
+  
+  def self.edit(item_name, item_cat, item_loc, item_quant, item_price, item_desc, input)
+    if input.is_a?(Integer)
+      DATABASE.execute("UPDATE items SET name ='#{item_name}', category = '#{item_cat}', location = '#{item_loc}', 
+      quantity = #{item_quant}, cost = #{item_price}, description = '#{item_desc}' WHERE id = #{input}")
+    else
+      DATABASE.execute("UPDATE items SET name ='#{item_name}', category = '#{item_cat}', location = '#{item_loc}', 
+      quantity = #{item_quant}, cost  = #{item_price}, description = '#{item_desc}' WHERE name = '#{input}'")
+    end
+  end 
 
   
 end

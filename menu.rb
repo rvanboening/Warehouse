@@ -26,7 +26,7 @@ class Menu
           end
           
         elsif @action == 4
-           id, name = action_by 
+           @pcl_text = "Product"
              # puts "#{@action_text} by...", "1. Product ID", "2. Product Name"
              # @edit_by = gets.chomp.to_i  
         else
@@ -158,23 +158,45 @@ class Menu
   
     #Edit by product id
     if @action == 4
-      if @edit_by == 1 
+      id, name = action_by 
+      if id
+        puts Item.fetch_item_by(id,1)
+      else
+        puts Item.fetch_item_by(name,2)
       end
-    
-      #Edit by product name
-      if @edit_by == 2
-      end
+      
+      puts "Enter item name"
+      item_name=gets.chomp
+      puts "Enter item category."
+      item_cat=gets.chomp
+      puts "Enter item location."
+      item_loc=gets.chomp
+      puts "Enter item quanity."
+      item_quant=gets.chomp.to_i
+      puts "Enter item price." 
+      item_price=gets.chomp.to_f
+      puts "Enter a description"
+      item_desc=gets.chomp
+     
+      #edit id
+      if id
+        Item.edit(item_name, item_cat, item_loc, item_quant, item_price, item_desc, id)
+        puts "Product edited successfully!"
+      else
+        Item.edit(item_name, item_cat, item_loc, item_quant, item_price, item_desc, name)
+        puts "Product edited successfully!"
+      end  
     end
   end
   
   def self.action_by
-      puts " #{@action_text} #{@action == 4 ? "product" : @pcl_text} by..",  "1. ID", "2. Name"
+      puts " #{@action_text} #{@pcl_text} by..",  "1. ID", "2. Name"
       by = gets.chomp.to_i
     if by == 1
-      puts "Enter #{@action == 4 ? "product" : @pcl_text} id"
+      puts "Enter #{@pcl_text} id"
       id = gets.chomp.to_i
     else
-      puts "Enter #{@action == 4 ? "product" : @pcl_text} name."
+      puts "Enter #{@pcl_text} name."
       name=gets.chomp
     end 
   
@@ -191,8 +213,9 @@ class Menu
       puts "This #{pcl.name} has been deleted successfully."
     end
   end
-  
-end
+end  
+
+
   
 
   
