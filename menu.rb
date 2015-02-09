@@ -7,26 +7,44 @@ class Menu
       break if [1,2,3,4].include? @action
     end
   
-    action_items= ["Add", "Delete", "Fetch" "Edit"]
+    action_items= ["Add", "Delete", "Fetch", "Edit"]
     @action_text = action_items[@action-1]
 
     # @action_text= "Add" if @action == 1
     # @action_text= "Delete" if @action == 2
     # @action_text= "Fetch" if @action == 3
     # @action_text= "Edit" if @action == 4
-  
-    loop do
-       puts "#{@action_text}...", "1. Product", "2. Category", "3. Location"
-       @pcl = gets.chomp.to_i
-       break if [1,2,3].include? @pcl
-     end
-   
-     pcl_items = ["Item", "Category", "Location"]
-     @pcl_text= pcl_items[@pcl-1]
+    
+
+       #if you select Fetch
+       
+       if @action == 3
+         loop do
+            puts "#{@action_text} by...", "1. Product ID", "2. Product Name", "3. Category", "4. Location"
+            @fetch = gets.chomp.to_i
+            break if [1,2,3,4].include? @fetch
+          end
+          
+        elsif @action == 4
+           id, name = action_by 
+             # puts "#{@action_text} by...", "1. Product ID", "2. Product Name"
+             # @edit_by = gets.chomp.to_i  
+        else
+          #if you select 1 or 2
+          loop do
+             puts "#{@action_text}...", "1. Product", "2. Category", "3. Location"
+             @pcl = gets.chomp.to_i
+             break if [1,2,3].include? @pcl
+           end
+           pcl_items = ["Item", "Category", "Location"]
+           @pcl_text= pcl_items[@pcl-1]
+         end
+         
+    
      
     # @pcl_text= "Item" if @pcl == 1
-    #  @pcl_text= "Category" if @pcl == 2
-    #  @pcl_text= "Location" if @pcl == 3
+    # @pcl_text= "Category" if @pcl == 2
+    # @pcl_text= "Location" if @pcl == 3
 
 
     #add Product
@@ -98,7 +116,7 @@ class Menu
       end
     
       #Delete Location
-      if @pcl == 3
+      if @fetch == 3
         puts "List of Locations:", Location.list_loc
         id, name = action_by
         
@@ -107,49 +125,56 @@ class Menu
       end
     end
   
-    #Fetch Read item
+    #Fetch Product Id
     if @action == 3
-      if @pcl == 1
-        id, name = action_by
+      if @fetch == 1
+        puts "Enter product ID:"
+        id=gets.chomp.to_i
+        puts Item.fetch_item_by(id,1)
       end 
    
-      #Fetch Category
-      if @pcl == 2
-        id, name = action_by
+      #Fetch product Name
+      if @fetch == 2
+        puts "Enter product name:"
+        name=gets.chomp
+        puts Item.fetch_item_by(name,2)
       end
     
-      #Fetch Location
-      if @pcl == 3
-        id, name = action_by
+      #Fetch product Category
+      if @fetch == 3
+        puts "Enter category:"
+        cat=gets.chomp
+        puts Item.fetch_item_by(cat,3)
+      end
+      
+      #Fetch product Location
+      if @fetch == 4
+        puts "Enter lcoation:"
+        loc=gets.chomp
+        puts Item.fetch_item_by(loc,4)
+        
       end
     end  
   
-    #Edit Item
+    #Edit by product id
     if @action == 4
-      if @pcl == 1
-        id, name = action_by
+      if @edit_by == 1 
       end
     
-      #Edit Category
-      if @pcl == 2
-        id, name = action_by
-      end
-    
-      #Edit Location
-      if @pcl == 3
-        id, name = action_by
+      #Edit by product name
+      if @edit_by == 2
       end
     end
   end
   
   def self.action_by
-      puts " #{@action_text} #{@pcl_text} by..",  "1. ID", "2. Name"
+      puts " #{@action_text} #{@action == 4 ? "product" : @pcl_text} by..",  "1. ID", "2. Name"
       by = gets.chomp.to_i
     if by == 1
-      puts "Enter #{@pcl_text} id"
+      puts "Enter #{@action == 4 ? "product" : @pcl_text} id"
       id = gets.chomp.to_i
     else
-      puts "Enter #{@pcl_text} name."
+      puts "Enter #{@action == 4 ? "product" : @pcl_text} name."
       name=gets.chomp
     end 
   
